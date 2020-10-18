@@ -10,6 +10,7 @@
 import XMonad
 import Data.Monoid
 import System.Exit
+import Graphics.X11.ExtraTypes.XF86
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -138,6 +139,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Spawn firefox private window
     , ((modm .|. shiftMask, xK_p     ), spawn "firefox --private-window")
+
+    -- special keybindings
+    , ((0, xF86XK_AudioMute           ), spawn "amixer set Master toggle")
+    , ((0, xF86XK_AudioRaiseVolume    ), spawn "amixer set Master 5%+")
+    , ((0, xF86XK_AudioLowerVolume    ), spawn "amixer set Master 5%-")
+    , ((0, xF86XK_AudioMicMute        ), spawn "amixer set Capture toggle")
+    , ((0, xF86XK_MonBrightnessUp     ), spawn "light -A 5")
+    , ((0, xF86XK_MonBrightnessDown   ), spawn "light -U 5")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
@@ -272,7 +281,7 @@ myStartupHook = return ()
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    spawn "xmobar -v /home/pranaysashank/.config/xmobar/xmobarrc 2>&1 > /home/pranaysashank/.xmobarlog"
+--    spawn "xmobar -v /home/pranaysashank/.config/xmobar/xmobarrc 2>&1 > /home/pranaysashank/.xmobarlog"
     xmonad $ docks defaults
 
 -- A structure containing your configuration settings, overriding

@@ -281,7 +281,7 @@ myStartupHook = return ()
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
---    spawn "xmobar -v /home/pranaysashank/.config/xmobar/xmobarrc 2>&1 > /home/pranaysashank/.xmobarlog"
+    spawn "/home/pranaysashank/.cabal/bin/xmobar"
     xmonad $ docks defaults
 
 -- A structure containing your configuration settings, overriding

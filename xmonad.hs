@@ -66,7 +66,7 @@ myFocusedBorderColor = "#ff0000"
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
+    [ ((modm .|. shiftMask, xK_Delete), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
     , ((modm,               xK_p     ), shellPrompt myXPConfig)
@@ -75,10 +75,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_c     ), kill)
 
      -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
+    , ((modm,           xK_BackSpace ), sendMessage NextLayout)
 
     --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+    , ((modm .|. shiftMask, xK_BackSpace ), setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
     , ((modm,               xK_n     ), refresh)
@@ -318,12 +318,12 @@ help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- launching and killing programs",
-    "mod-Shift-Enter  Launch xterminal",
+    "mod-Shift-Delete  Launch xterminal",
     "mod-p            Launch dmenu",
     "mod-Shift-p      Launch gmrun",
     "mod-Shift-c      Close/kill the focused window",
-    "mod-Space        Rotate through the available layout algorithms",
-    "mod-Shift-Space  Reset the layouts on the current workSpace to default",
+    "mod-BackSpace    Rotate through the available layout algorithms",
+    "mod-Shift-BackSpace  Reset the layouts on the current workSpace to default",
     "mod-n            Resize/refresh viewed windows to the correct size",
     "",
     "-- move focus up or down the window stack",

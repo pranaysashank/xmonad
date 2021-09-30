@@ -17,8 +17,12 @@ import qualified Data.Map        as M
 
 -- xmonad-contrib
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Prompt
 import XMonad.Prompt.Shell (shellPrompt)
+
+-- taffybar
+-- import System.Taffybar.Support.PagerHints (pagerHints)
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -66,7 +70,7 @@ myFocusedBorderColor = "#ff0000"
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Delete), spawn $ XMonad.terminal conf)
+    [ ((modm,               xK_End), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
     , ((modm,               xK_p     ), shellPrompt myXPConfig)
@@ -139,6 +143,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Spawn firefox private window
     , ((modm .|. shiftMask, xK_p     ), spawn "firefox --private-window")
+
+    -- Spawn discord
+    , ((modm .|. shiftMask, xK_d     ), spawn "discord")
+
+    -- Spawn slack
+    , ((modm .|. shiftMask, xK_s     ), spawn "slack")
 
     -- special keybindings
     , ((0, xF86XK_AudioMute           ), spawn "amixer set Master toggle")
@@ -281,8 +291,10 @@ myStartupHook = return ()
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    spawn "/home/pranaysashank/.cabal/bin/xmobar"
-    xmonad $ docks defaults
+    spawn "xmobar"
+    xmonad $ docks $ ewmh defaults
+        { handleEventHook =
+             handleEventHook defaults <+> fullscreenEventHook }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will

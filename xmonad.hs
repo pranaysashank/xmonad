@@ -232,7 +232,7 @@ myXPConfig = def
   { position          = Top
   , alwaysHighlight   = True
   , promptBorderWidth = 0
-  , font              = "xft:monospace:size=9"
+  , font              = "xft:Fira Code:size=9"
   }
 
 ------------------------------------------------------------------------
@@ -292,9 +292,7 @@ myStartupHook = return ()
 --
 main = do
     spawn "xmobar"
-    xmonad $ docks $ ewmh defaults
-        { handleEventHook =
-             handleEventHook defaults <+> fullscreenEventHook }
+    xmonad $ docks $ ewmhFullscreen . ewmh $ defaults
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will

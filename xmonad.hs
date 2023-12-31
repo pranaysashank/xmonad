@@ -73,7 +73,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm,               xK_End), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), shellPrompt myXPConfig)
+    , ((modm,               xK_p     ), spawn "rofi -modes 'run,drun,combi' -show drun ")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -159,7 +159,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((0, xF86XK_MonBrightnessDown   ), spawn "light -U 5")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
-    , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+    , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | $XMONAD_XMESSAGE -file -"))
     ]
     ++
 

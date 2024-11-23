@@ -21,6 +21,12 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Prompt
 import XMonad.Prompt.Shell (shellPrompt)
 
+import XMonad.Actions.CopyWindow (copyToAll)
+
+import XMonad.Hooks.ManageHelpers (doCenterFloat, doSideFloat, doRectFloat, Side (..))
+import XMonad.StackSet (RationalRect (..))
+import XMonad.Hooks.OnPropertyChange (onClassChange)
+
 -- taffybar
 -- import System.Taffybar.Support.PagerHints (pagerHints)
 
@@ -254,7 +260,12 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+    , resource  =? "kdesktop"       --> doIgnore
+    , className =? "discord"        --> doShift "9"
+    , className =? "slack"          --> doShift "4"
+    , isRole =? "PictureInPicture"  --> mconcat [doRectFloat (RationalRect (2/3) (2/3) (1/3) (1/3)), doF copyToAll]
+    , isRole =? "pop-up"            --> mconcat [doSideFloat SE, doF copyToAll]
+    ]
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -265,7 +276,7 @@ myManageHook = composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = mempty
+myEventHook = onClassChange $ (className =? "slack" --> doShift "4")
 
 ------------------------------------------------------------------------
 -- Status bars and logging
@@ -291,7 +302,6 @@ myStartupHook = return ()
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    spawn "xmobar"
     xmonad $ docks $ ewmhFullscreen . ewmh $ defaults
 
 -- A structure containing your configuration settings, overriding
@@ -373,3 +383,7 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-button1  Set the window to floating mode and move by dragging",
     "mod-button2  Raise the window to the top of the stack",
     "mod-button3  Set the window to floating mode and resize by dragging"]
+
+
+isRole :: Query String
+isRole = stringProperty "WM_WINDOW_ROLE"
